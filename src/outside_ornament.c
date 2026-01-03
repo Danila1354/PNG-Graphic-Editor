@@ -40,12 +40,13 @@ void outside_ornament(PNGImage* image, int thickness, char* color){
     int x1 = 0;
     for (int y = thickness;y<new_height-thickness;y++){
         for (int x = thickness;x<new_width-thickness;x++){
-            row_pointers_copy[y][x*3] = image->row_pointers[y1][x*3];
-            row_pointers_copy[y][x*3+1] = image->row_pointers[y1][x*3+1];
-            row_pointers_copy[y][x*3+2] = image->row_pointers[y1][x*3+2];
+            row_pointers_copy[y][x*3] = image->row_pointers[y1][x1*3];
+            row_pointers_copy[y][x*3+1] = image->row_pointers[y1][x1*3+1];
+            row_pointers_copy[y][x*3+2] = image->row_pointers[y1][x1*3+2];
             x1++;
         }
         y1++;
+        x1 = 0;
     }
     image->height = new_height;
     image->width = new_width;
