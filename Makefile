@@ -1,32 +1,14 @@
-all: main.o check_functions.o drawing_figures_functions.o drawing_line_functions.o input_functions.o mirror_function.o parse_functions.o png_functions.o outside_ornament.o
-	gcc  src/main.o src/check_functions.o src/drawing_figures_functions.o src/drawing_line_functions.o src/input_functions.o src/mirror_function.o src/parse_functions.o src/png_functions.o src/outside_ornament.o -o cw -lpng -lm
+PKG_CFLAGS := $(shell pkg-config --cflags libpng)
+PKG_LIBS   := $(shell pkg-config --libs libpng)
 
-main.o: src/main.c
-	gcc -c src/main.c -o src/main.o
+SRC = src/main.c src/check_functions.c src/drawing_figures_functions.c src/drawing_line_functions.c src/input_functions.c src/mirror_function.c src/parse_functions.c src/png_functions.c src/outside_ornament.c
+OBJ = $(SRC:.c=.o)
 
-check_functions.o: src/check_functions.c src/check_functions.h
-	gcc -c src/check_functions.c -o src/check_functions.o
+all: $(OBJ)
+	gcc $(OBJ) -o cw $(PKG_LIBS) -lm
 
-drawing_figures_functions.o: src/drawing_figures_functions.c src/drawing_line_functions.h
-	gcc -c src/drawing_figures_functions.c -o src/drawing_figures_functions.o
-
-drawing_line_functions.o: src/drawing_line_functions.c src/drawing_line_functions.h
-	gcc -c src/drawing_line_functions.c -o src/drawing_line_functions.o
-
-input_functions.o: src/input_functions.c src/input_functions.h
-	gcc -c src/input_functions.c -o src/input_functions.o
-
-mirror_function.o: src/mirror_function.c src/mirror_function.h
-	gcc -c src/mirror_function.c -o src/mirror_function.o
-
-parse_functions.o: src/parse_functions.c src/parse_functions.h
-	gcc -c src/parse_functions.c -o src/parse_functions.o
-
-outside_ornament.o: src/outside_ornament.c src/outside_ornament.h
-	gcc -c src/outside_ornament.c -o src/outside_ornament.o
-
-png_functions.o: src/png_functions.c src/png_functions.h
-	gcc -c src/png_functions.c -o src/png_functions.o
+src/%.o: src/%.c
+	gcc $(PKG_CFLAGS) -c $< -o $@
 
 clean:
 	rm src/*.o cw
